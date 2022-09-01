@@ -20,15 +20,15 @@ public class Config extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/service/*");
+        return new ServletRegistrationBean(servlet, "/ws/*");
     }
 
     @Bean(name = "converterWsdl")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema converterSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("ConverterPort");
-        wsdl11Definition.setLocationUri("/service/convert");
-        wsdl11Definition.setTargetNamespace("http://www.test-soap.com/");
+        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setTargetNamespace("localhost:8080/springsoap/gen");
         wsdl11Definition.setSchema(converterSchema);
         return wsdl11Definition;
     }
