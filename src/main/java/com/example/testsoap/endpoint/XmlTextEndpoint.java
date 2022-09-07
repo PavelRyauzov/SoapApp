@@ -1,8 +1,8 @@
 package com.example.testsoap.endpoint;
 
-import com.example.testsoap.gen.ConverterRequest;
-import com.example.testsoap.gen.ConverterResponse;
 import com.example.testsoap.service.ConvertService;
+import com.test_soap.GetConvertedXmlRequest;
+import com.test_soap.GetConvertedXmlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -19,10 +19,10 @@ public class XmlTextEndpoint {
         this.service = service;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "converterRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getConvertedXmlRequest")
     @ResponsePayload
-    public ConverterResponse getData(@RequestPayload ConverterRequest request) {
-        ConverterResponse response = new ConverterResponse();
+    public GetConvertedXmlResponse getData(@RequestPayload GetConvertedXmlRequest request) {
+        GetConvertedXmlResponse response = new GetConvertedXmlResponse();
         response.setConvertedXmlText(service.convertXml(request.getSourceXmlText()));
         return response;
     }
