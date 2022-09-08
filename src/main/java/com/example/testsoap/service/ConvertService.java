@@ -6,9 +6,6 @@ import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @Service
 public class ConvertService {
@@ -18,11 +15,17 @@ public class ConvertService {
 
         try(InputStream is = getClass().getClassLoader().getResourceAsStream("testXsl.xsl")) {
             Source xslt = new StreamSource(is);
+
             Transformer transformer = factory.newTransformer(xslt);
-            Source source = new StreamSource(new StringReader(xml));
-            Writer writer = new StringWriter();
-            transformer.transform(source, new StreamResult(writer));
-            return writer.toString();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+            Source sourceXml = new StreamSource(new StringReader(xml));
+            Writer resultWriter = new StringWriter();
+            transformer.transform(sourceXml, new StreamResult(resultWriter));
+            return resultWriter.toString();
         } catch (TransformerException | IOException e) {
             e.printStackTrace();
         }
