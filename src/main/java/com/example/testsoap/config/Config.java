@@ -15,6 +15,8 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class Config extends WsConfigurerAdapter {
+    public static final String NAMESPACE_URI = "http://www.test-soap.com/";
+
     @Bean
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -28,7 +30,7 @@ public class Config extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("ConverterPort");
         wsdl11Definition.setLocationUri("/service/convert");
-        wsdl11Definition.setTargetNamespace("http://www.test-soap.com/");
+        wsdl11Definition.setTargetNamespace(NAMESPACE_URI);
         wsdl11Definition.setSchema(converterSchema);
         return wsdl11Definition;
     }
