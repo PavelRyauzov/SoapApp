@@ -1,5 +1,7 @@
 package com.example.testsoap.service;
 
+
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.xml.transform.*;
@@ -8,8 +10,9 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
 @Service
+@Log4j2
 public class ConvertService {
-    public String convertXml(String xml) {
+    public String convertXml(String xml) throws Exception {
 
         TransformerFactory factory = TransformerFactory.newInstance();
 
@@ -27,9 +30,8 @@ public class ConvertService {
             transformer.transform(sourceXml, new StreamResult(resultWriter));
             return resultWriter.toString();
         } catch (TransformerException | IOException e) {
-            e.printStackTrace();
+            log.error("Exception is thrown", e);
+            throw new Exception("Exception in ConvertService");
         }
-
-        return null;
     }
 }
